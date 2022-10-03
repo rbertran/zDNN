@@ -13,6 +13,8 @@ samples/simple_heap
 samples/simple_stack
 samples/stickify_unstickify
 samples/ztensor_reuse
+samples/descriptor_share
+samples/simple_concat_lstm
 tests/bin
 tests/obj
 zdnn/lib
