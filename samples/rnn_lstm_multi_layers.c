@@ -23,7 +23,7 @@
 #include "zdnn.h"
 
 void do_bidir_layer(zdnn_ztensor *input, uint32_t num_hidden,
-                    zdnn_ztensor *hn_output, bool is_prev_layer_bidir) {
+                    zdnn_ztensor *hn_output, bool is_prev_layer_bidir, int iterations) {
 
   zdnn_status status;
 
@@ -219,12 +219,14 @@ void do_bidir_layer(zdnn_ztensor *input, uint32_t num_hidden,
    * Call the AIU
    ***********************************************************************/
 
+  for(int i=0; i<iterations; i++) {
   void *work_area = NULL;
 
   status =
       zdnn_lstm(input, &h0, &c0, &weights, &biases, &hidden_weights,
                 &hidden_biases, dir, work_area, hn_output, &cf_output_ztensor);
   assert(status == ZDNN_OK);
+  }
 
   /***********************************************************************
    * Cleanup and Return
@@ -331,11 +333,11 @@ int main(int argc, char *argv[]) {
 
   // call the first layer with input, previous layer bidir = false, output goes
   // to hn_output[0]
-  do_bidir_layer(&input, num_hidden[0], &hn_output[0], false);
+  do_bidir_layer(&input, num_hidden[0], &hn_output[0], false, atoi(argv[1]));
 
   // call the second layer with hn_output[0] from layer 1, previous layer bidir
   // = true, output goes to hn_output[1]
-  do_bidir_layer(&hn_output[0], num_hidden[1], &hn_output[1], true);
+  do_bidir_layer(&hn_output[0], num_hidden[1], &hn_output[1], true, atoi(argv[1]));
 
   /***********************************************************************
    * Output and Cleanup

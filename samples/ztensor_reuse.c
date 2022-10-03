@@ -41,8 +41,10 @@ int main(int argc, char *argv[]) {
   zdnn_init();
 #endif
 
-  void *data1 = malloc(num_elements * element_size);
-  void *data2 = malloc(num_elements * element_size);
+  for(int i=0; i<atoi(argv[1]); i++) {
+
+  void *data1 = calloc(num_elements * element_size, 1);
+  void *data2 = calloc(num_elements * element_size, 1);
 
   zdnn_init_pre_transformed_desc(ZDNN_NHWC, type, &pre_tfrmd_desc, dim_n, dim_h,
                                  dim_w, dim_c);
@@ -64,4 +66,6 @@ int main(int argc, char *argv[]) {
 
   free(data1);
   free(data2);
+
+  }
 }

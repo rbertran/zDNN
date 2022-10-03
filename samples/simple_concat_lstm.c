@@ -22,6 +22,8 @@
 
 #include "zdnn.h"
 
+#define CONCAT_LSTM (RNN_TYPE_LSTM | PREV_LAYER_BIDIR | USAGE_BIASES)
+
 // ***************************************************************************
 // Sample:
 //
@@ -29,7 +31,6 @@
 // ***************************************************************************
 int main(int argc, char *argv[]) {
   zdnn_tensor_desc *pre_tfrmd_desc, *tfrmd_desc;
-  zdnn_ztensor ztensor;
   zdnn_status status;
 
   uint32_t dim2 = 32, dim1 = 3;
@@ -41,6 +42,7 @@ int main(int argc, char *argv[]) {
   zdnn_init();
 #endif
 
+
   void *data_forget = malloc(num_elements * element_size),
        *data_input = malloc(num_elements * element_size),
        *data_cell = malloc(num_elements * element_size),
@@ -48,6 +50,13 @@ int main(int argc, char *argv[]) {
 
   pre_tfrmd_desc = malloc(sizeof(zdnn_tensor_desc));
   tfrmd_desc = malloc(sizeof(zdnn_tensor_desc));
+
+  for(int i=0; i<atoi(argv[1]); i++) {
+
+  zdnn_ztensor ztensor;
+  memset(&ztensor, 0, sizeof(ztensor));
+  //memset(pre_tfrmd_desc, 0, sizeof(zdnn_tensor_desc));
+  //memset(tfrmd_desc, 0, sizeof(zdnn_tensor_desc));
 
   zdnn_init_pre_transformed_desc(ZDNN_2DS, type, pre_tfrmd_desc, dim2, dim1);
   status = zdnn_generate_transformed_desc_concatenated(pre_tfrmd_desc,
@@ -65,10 +74,13 @@ int main(int argc, char *argv[]) {
                                   data_output);
   assert(status == ZDNN_OK);
 
+  }
+
   free(pre_tfrmd_desc);
   free(tfrmd_desc);
   free(data_forget);
   free(data_input);
   free(data_cell);
   free(data_output);
+
 }

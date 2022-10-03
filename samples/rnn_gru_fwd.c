@@ -239,11 +239,13 @@ int main(int argc, char *argv[]) {
    * Call the AIU
    ***********************************************************************/
 
-  void *work_area = NULL;
+  for(int i=0; i<atoi(argv[1]); i++) {
+      void *work_area = NULL;
 
-  status = zdnn_gru(&input, &h0, &weights, &biases, &hidden_weights,
+     status = zdnn_gru(&input, &h0, &weights, &biases, &hidden_weights,
                     &hidden_biases, dir, work_area, &hn_output_ztensor);
-  assert(status == ZDNN_OK);
+    assert(status == ZDNN_OK);
+  }
 
   /***********************************************************************
    * Output and Cleanup

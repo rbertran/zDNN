@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
   zdnn_init();
 #endif
 
+  for(int i=0; i<atoi(argv[1]); i++) {
   void *data = malloc(num_elements * element_size);
 
   zdnn_init_pre_transformed_desc(ZDNN_NHWC, type, &pre_tfrmd_desc, dim_n, dim_h,
@@ -56,4 +57,5 @@ int main(int argc, char *argv[]) {
   assert(status == ZDNN_OK);
 
   free(data);
+  }
 }

@@ -84,8 +84,11 @@ int main(int argc, char *argv[]) {
   assert(status == ZDNN_OK);
 
   // perform element-wise add between the two input tensors
+  //
+  for(int i=0; i<atoi(argv[1]); i++) {
   status = zdnn_add(&ztensor_a, &ztensor_b, &ztensor_out);
   assert(status == ZDNN_OK);
+  }
 
   // transform resultant zTensor back to original data format
   status = zdnn_transform_origtensor(&ztensor_out, data_out);

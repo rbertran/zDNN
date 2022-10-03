@@ -41,9 +41,11 @@ int main(int argc, char *argv[]) {
 #ifdef STATIC_LIB
   zdnn_init();
 #endif
+ 
+  for(int i=0; i<atoi(argv[1]); i++) {
 
-  void *data = malloc(num_elements * element_size);
-  void *data_out = malloc(num_elements * element_size);
+  void *data = calloc(num_elements * element_size, 1);
+  void *data_out = calloc(num_elements * element_size, 1);
 
   zdnn_init_pre_transformed_desc(ZDNN_NHWC, type, &pre_tfrmd_desc, dim_n, dim_h,
                                  dim_w, dim_c);
@@ -62,4 +64,5 @@ int main(int argc, char *argv[]) {
 
   free(data);
   free(data_out);
-}
+  }
+    }

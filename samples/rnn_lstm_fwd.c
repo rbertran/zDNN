@@ -259,12 +259,14 @@ int main(int argc, char *argv[]) {
    * Call the AIU
    ***********************************************************************/
 
+  for(int i=0; i<atoi(argv[1]); i++) {
   void *work_area = NULL;
 
   status = zdnn_lstm(&input, &h0, &c0, &weights, &biases, &hidden_weights,
                      &hidden_biases, dir, work_area, &hn_output_ztensor,
                      &cf_output_ztensor);
   assert(status == ZDNN_OK);
+  }
 
   /***********************************************************************
    * Output and Cleanup

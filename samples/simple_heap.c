@@ -41,10 +41,12 @@ int main(int argc, char *argv[]) {
   zdnn_init();
 #endif
 
-  void *data = malloc(num_elements * element_size);
+
+  for(int i=0; i<atoi(argv[1]); i++) {
+  void *data = calloc(num_elements * element_size, 1);
 
   pre_tfrmd_desc = malloc(sizeof(zdnn_tensor_desc));
-  tfrmd_desc = malloc(sizeof(zdnn_tensor_desc));
+  tfrmd_desc = calloc(sizeof(zdnn_tensor_desc), 1);
 
   zdnn_init_pre_transformed_desc(ZDNN_NHWC, type, pre_tfrmd_desc, dim_n, dim_h,
                                  dim_w, dim_c);
@@ -60,4 +62,5 @@ int main(int argc, char *argv[]) {
   free(pre_tfrmd_desc);
   free(tfrmd_desc);
   free(data);
+  }
 }

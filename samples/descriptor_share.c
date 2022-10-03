@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "zdnn.h"
+#define CONCAT_LSTM (RNN_TYPE_LSTM | PREV_LAYER_BIDIR | USAGE_BIASES)
 
 // ***************************************************************************
 // Sample:
@@ -47,6 +48,8 @@ int main(int argc, char *argv[]) {
   pre_tfrmd_desc = malloc(sizeof(zdnn_tensor_desc));
   tfrmd_desc = malloc(sizeof(zdnn_tensor_desc));
 
+  for(int i=0; i<atoi(argv[1]); i++) {
+
   zdnn_init_pre_transformed_desc(ZDNN_2DS, type, pre_tfrmd_desc, dim2, dim1);
   status = zdnn_generate_transformed_desc_concatenated(pre_tfrmd_desc,
                                                        CONCAT_LSTM, tfrmd_desc);
@@ -67,6 +70,7 @@ int main(int argc, char *argv[]) {
   assert(status == ZDNN_OK);
   status = zdnn_transform_ztensor(&ztensor2, data2, data2, data2, data2);
   assert(status == ZDNN_OK);
+  }
 
   free(pre_tfrmd_desc);
   free(tfrmd_desc);
